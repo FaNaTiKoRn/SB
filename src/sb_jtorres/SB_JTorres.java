@@ -27,33 +27,13 @@ public class SB_JTorres {
         // TODO code application logic here
         //Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         //String server = "WOLVERINE\\MSSQL14.SQLEXPRESS:1433"; //HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL
-        String server = "WOLVERINE\\MSSQL14.SQLEXPRESS:1433";
-        String db = "CaC";
-        String user = "sa";
-        String pass = "sa2017";
-        String connectionURL = "jdbc:sqlserver://" + server + ";databaseName=" + db + ";user=" + user + ";password=" + pass + ";";
-        Connection cnx = DriverManager.getConnection(connectionURL);//Conectado
-        Statement st = null;
-        st = cnx.createStatement();
-        ResultSet rs = st.executeQuery("select * from CaC");
-        /* // o bien...
-        Connection cnx = null;
-
-        cnx = DriverManager.getConnection(url, user, pass);
-        */
-
-        while (rs.next())
-        {
-           int ID = rs.getInt(1);
-           String nombre = rs.getString(2);
-           String apellido = rs.getString(3);
-           System.out.println("ID:" + ID + " - Nombre:" + nombre + " - Apellido:" + apellido);
-        }
+        DBConnect conn = new DBConnect();
+        conn.Conectar();
         //ServletRequest.getLocalName()
         //ServletRequest.getLocalAddr() returns IP.
         //ServletRequest.getLocalPort() returns puerto.
        
-        Statement instruccion = cnx.createStatement();
+        //Statement instruccion = cnx.createStatement();
         //instruccion.execute("insert into CaC values ('Pepe','Papá')");
         //instruccion.execute("delete from CaC where nombre = 'Pepe'");
     }                                                 
