@@ -24,7 +24,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 */
 import javax.swing.JOptionPane;
-
 /**
  *
  * @author FaNaTiKoRn
@@ -35,9 +34,27 @@ public class DBConnect {
     private String user = "sa";
     private String pass = "sa2017";
 */
-   public Connection Conectar() throws SQLException{
+   public void Conectar() throws ClassNotFoundException, SQLException{
         // Class.forName("org.gjt.mm.mysql.Driver"); //Para MySQL
-       
-        return cnx;
+      String server = "WOLVERINE\\MSSQL14.SQLEXPRESS:1433";
+        String db = "CaC";
+        String user = "sa";
+        String pass = "sa2017";
+        String connectionURL = "jdbc:sqlserver://" + server + ";databaseName=" + db + ";user=" + user + ";password=" + pass + ";";
+        Connection cnx = DriverManager.getConnection(connectionURL);//Conectado
+        Statement st = null;
+        st = cnx.createStatement();
+        ResultSet rs = st.executeQuery("select * from CaC");
+        /* // o bien...
+        Connection cnx = null;
+        cnx = DriverManager.getConnection(url, user, pass);
+        */
+        while (rs.next())
+        {
+           int ID = rs.getInt(1);
+           String nombre = rs.getString(2);
+           String apellido = rs.getString(3);
+           System.out.println("ID:" + ID + " - Nombre:" + nombre + " - Apellido:" + apellido);
+        }
    }
 }

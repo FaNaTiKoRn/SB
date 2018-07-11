@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package w;
+package windows;
 import java.sql.*;
 import java.util.*;
+import javax.swing.*;
 /**
  *
  * @author FaNaTiKoRn
@@ -17,6 +18,7 @@ public class DBConnectW extends javax.swing.JFrame {
      */
     public DBConnectW() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("../img/tr.png")).getImage());
         this.setLocationRelativeTo(null); //Centra la ventana
     }
 
@@ -89,7 +91,7 @@ public class DBConnectW extends javax.swing.JFrame {
         queryInput.setRows(5);
         jScrollPane1.setViewportView(queryInput);
 
-        iconEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/red_33x33.png"))); // NOI18N
+        iconEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/green_33x33.png"))); // NOI18N
         iconEstado.setToolTipText("Estado Desconectado");
         iconEstado.setEnabled(false);
         iconEstado.setMaximumSize(new java.awt.Dimension(25, 25));
@@ -109,9 +111,9 @@ public class DBConnectW extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(340, 340, 340)
+                .addGap(262, 262, 262)
                 .addComponent(conectar)
-                .addGap(3, 3, 3)
+                .addGap(81, 81, 81)
                 .addComponent(salir))
         );
         layout.setVerticalGroup(
@@ -126,9 +128,9 @@ public class DBConnectW extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(conectar)
-                    .addComponent(salir)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(salir)
+                    .addComponent(conectar)))
         );
 
         pack();
@@ -138,6 +140,7 @@ public class DBConnectW extends javax.swing.JFrame {
         // TODO add your handling code here:
         estado.setText("Conectado");
         iconEstado.setEnabled(rootPaneCheckingEnabled);
+        conectar.setText("Desconectar");
         
     }//GEN-LAST:event_conectarActionPerformed
 
