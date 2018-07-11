@@ -106,14 +106,14 @@ public class DBConnectW extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
-                .addComponent(estado))
+                .addComponent(estado)
+                .addGap(85, 85, 85)
+                .addComponent(conectar))
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(262, 262, 262)
-                .addComponent(conectar)
-                .addGap(81, 81, 81)
+                .addGap(420, 420, 420)
                 .addComponent(salir))
         );
         layout.setVerticalGroup(
@@ -124,13 +124,13 @@ public class DBConnectW extends javax.swing.JFrame {
                         .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(1, 1, 1))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(estado)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(estado)
+                            .addComponent(conectar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(salir)
-                    .addComponent(conectar)))
+                .addComponent(salir))
         );
 
         pack();
