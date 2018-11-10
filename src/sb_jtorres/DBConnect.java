@@ -16,6 +16,8 @@ In general, to process any SQL statement with JDBC, you follow these steps:
 package sb_jtorres;
 import java.sql.*;
 import java.util.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 /*
 import java.sql.Connection;  
 import java.sql.DriverManager;

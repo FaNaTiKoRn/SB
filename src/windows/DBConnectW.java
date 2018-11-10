@@ -4,13 +4,18 @@
  * and open the template in the editor.
  */
 package windows;
+
+import java.net.URL;
 import java.sql.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author FaNaTiKoRn
  */
+
 public class DBConnectW extends javax.swing.JFrame {
 
     /**
@@ -21,7 +26,8 @@ public class DBConnectW extends javax.swing.JFrame {
         setIconImage(new ImageIcon(getClass().getResource("../img/tr.png")).getImage());
         this.setLocationRelativeTo(null); //Centra la ventana
     }
-
+    
+    static int contador = 0;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -82,7 +88,7 @@ public class DBConnectW extends javax.swing.JFrame {
             }
         });
 
-        estado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        estado.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         estado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         estado.setText("Desconectado");
         estado.setToolTipText("Estado de la conexión.");
@@ -94,8 +100,8 @@ public class DBConnectW extends javax.swing.JFrame {
         iconEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/green_33x33.png"))); // NOI18N
         iconEstado.setToolTipText("Estado Desconectado");
         iconEstado.setEnabled(false);
-        iconEstado.setMaximumSize(new java.awt.Dimension(25, 25));
-        iconEstado.setMinimumSize(new java.awt.Dimension(25, 25));
+        iconEstado.setMaximumSize(new java.awt.Dimension(10, 10));
+        iconEstado.setMinimumSize(new java.awt.Dimension(10, 10));
         iconEstado.setPreferredSize(new java.awt.Dimension(25, 25));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -103,34 +109,34 @@ public class DBConnectW extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
+                .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(estado)
-                .addGap(85, 85, 85)
-                .addComponent(conectar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(conectar)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(420, 420, 420)
-                .addComponent(salir))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(salir)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 3, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(estado)
-                            .addComponent(conectar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7)
+                        .addComponent(conectar))
+                    .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(estado)))
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
-                .addComponent(salir))
+                .addComponent(salir)
+                .addGap(3, 3, 3))
         );
 
         pack();
@@ -138,9 +144,25 @@ public class DBConnectW extends javax.swing.JFrame {
 
     private void conectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conectarActionPerformed
         // TODO add your handling code here:
-        estado.setText("Conectado");
-        iconEstado.setEnabled(rootPaneCheckingEnabled);
-        conectar.setText("Desconectar");
+        //Icon icono;
+        String conectado = "C:\\green_33x33.png";
+        String desconectado = "img//red_33x33.png";
+        //Icon conectado = new javax.swing.ImageIcon(conectado);
+        if( "Desconectado".equals(estado.getText()))
+        {
+            estado.setText("Conectado");            
+            iconEstado.setEnabled(rootPaneCheckingEnabled);
+            //icono = ImageIcon(getClass().getResource());
+            //icono = ImageIcon("/img/red_33x33.png");
+            //iconEstado.setIcon(icono);
+            iconEstado.setIcon(new javax.swing.ImageIcon(conectado));
+        }
+        else
+        {
+            estado.setText("Desconectado");            
+            iconEstado.setEnabled(rootPaneCheckingEnabled);
+            iconEstado.setIcon(new javax.swing.ImageIcon(desconectado));
+        }
         
     }//GEN-LAST:event_conectarActionPerformed
 
@@ -192,16 +214,21 @@ public class DBConnectW extends javax.swing.JFrame {
             public void run() {
                 new DBConnectW().setVisible(true);
             }
-        });
+        });        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton conectar;
-    private javax.swing.JLabel estado;
-    private javax.swing.JLabel iconEstado;
-    private javax.swing.JFrame jFrame1;
+    public javax.swing.JButton conectar;
+    public javax.swing.JLabel estado;
+    public javax.swing.JLabel iconEstado;
+    public javax.swing.JFrame jFrame1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea queryInput;
     private javax.swing.JButton salir;
     // End of variables declaration//GEN-END:variables
+
+   /* private Icon ImageIcon(URL resource) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    */
 }
