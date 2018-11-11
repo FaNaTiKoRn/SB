@@ -16,6 +16,8 @@ In general, to process any SQL statement with JDBC, you follow these steps:
 package sb_jtorres;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 /*
@@ -37,26 +39,39 @@ public class DBConnect {
     private String pass = "sa2017";
 */
    public void Conectar() throws ClassNotFoundException, SQLException{
-        // Class.forName("org.gjt.mm.mysql.Driver"); //Para MySQL
-      String server = "WOLVERINE\\MSSQL14.SQLEXPRESS:1433";
-        String db = "CaC";
-        String user = "sa";
-        String pass = "sa2017";
-        String connectionURL = "jdbc:sqlserver://" + server + ";databaseName=" + db + ";user=" + user + ";password=" + pass + ";";
-        Connection cnx = DriverManager.getConnection(connectionURL);//Conectado
+        //Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); //Para SQLServer
+        Class.forName("com.mysql.jdbc.Driver"); //Para MySQL
+        //String server = "WOLVERINE\\MSSQL14.SQLEXPRESS:1433";  // MsSQL SERVER
+        String db = "SB_JTorres";
+        String server = "127.0.0.1/" + db;  // MySQL SERVER //Servidor + DB
+        String user = "root"; //'sa' para MsSQLServer //'adm' (abc123) para PHPMySQLServer // bejerman (tiMCLmu27qtQwD) para ambas plataformas
+        String pass = "";
+        //String connectionURL = "jdbc:sqlserver://" + server + ";databaseName=" + db + ";user=" + user + ";password=" + pass + ";"; //Conexión a MsSQLServer
+        String connectionURL = "jdbc:mysql://" + server; //Conexión a PHPMySQLServer
+        Connection cnx = DriverManager.getConnection(connectionURL,user,pass);//Conectado
+        //cnx.setAutoCommit(false);
+        //cnx.commit();
+        //cnx.rollback();
         Statement st = null;
         st = cnx.createStatement();
-        ResultSet rs = st.executeQuery("select * from CaC");
+        ResultSet rs = st.executeQuery("select * from usu");
         /* // o bien...
         Connection cnx = null;
         cnx = DriverManager.getConnection(url, user, pass);
         */
         while (rs.next())
         {
-           int ID = rs.getInt(1);
-           String nombre = rs.getString(2);
-           String apellido = rs.getString(3);
-           System.out.println("ID:" + ID + " - Nombre:" + nombre + " - Apellido:" + apellido);
+           int usu_id = rs.getInt(1);
+           String usu_codigo = rs.getString(2);
+           String usu_clave = rs.getString(3);
+           String usu_nombre = rs.getString(4);
+           int usu_status = rs.getInt(5);
+           System.out.println("ID:" + usu_id + " - Nombre:" + usu_nombre + " - Código:" + usu_codigo + " - clave:" + usu_clave + " - Estado:" + usu_status);
         }
+        cnx.close();
+   }
+   public void Desconectar()
+   {
+   
    }
 }

@@ -31,9 +31,9 @@ public class SB_JTorres {
         DBConnectW conectar = new DBConnectW();
         conectar.setVisible(true);
         //conn.Conectar();//
-        //ServletRequest.getLocalName()
-        //ServletRequest.getLocalAddr() returns IP.
-        //ServletRequest.getLocalPort() returns puerto.
+        //ServletRequest.getLocalName();
+        //ServletRequest.getLocalAddr();// devuelve la IP.
+        //ServletRequest.getLocalPort() devuelve el puerto.
         //Statement instruccion = cnx.createStatement();
         //instruccion.execute("insert into CaC values ('Pepe','Papá')");
         //instruccion.execute("delete from CaC where nombre = 'Pepe'");

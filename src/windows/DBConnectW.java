@@ -5,11 +5,17 @@
  */
 package windows;
 
+import java.awt.Image;
+import java.io.File;
 import java.net.URL;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.ImageIcon;
+import sb_jtorres.DBConnect; //Importa la clase de otro paquete en el mismo proyecto.
 
 /**
  *
@@ -112,27 +118,26 @@ public class DBConnectW extends javax.swing.JFrame {
                 .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(estado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(conectar)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(salir)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(salir)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(conectar))
                 .addGap(0, 3, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(conectar))
                     .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addComponent(estado)))
-                .addGap(20, 20, 20)
+                .addGap(1, 1, 1)
+                .addComponent(conectar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
                 .addComponent(salir)
@@ -145,23 +150,46 @@ public class DBConnectW extends javax.swing.JFrame {
     private void conectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conectarActionPerformed
         // TODO add your handling code here:
         //Icon icono;
+        DBConnect conectando = new DBConnect(); ///Crea el objeto de la clase DBConnect que permite conectar a la Base de Datos.
+        iconEstado.setEnabled(rootPaneCheckingEnabled);
         String conectado = "C:\\green_33x33.png";
-        String desconectado = "img//red_33x33.png";
+        String desconectado = "C:\\red_33x33.png";
         //Icon conectado = new javax.swing.ImageIcon(conectado);
         if( "Desconectado".equals(estado.getText()))
         {
-            estado.setText("Conectado");            
-            iconEstado.setEnabled(rootPaneCheckingEnabled);
-            //icono = ImageIcon(getClass().getResource());
-            //icono = ImageIcon("/img/red_33x33.png");
-            //iconEstado.setIcon(icono);
-            iconEstado.setIcon(new javax.swing.ImageIcon(conectado));
+            try {
+                conectando.Conectar();
+                estado.setText("Conectado");          
+                iconEstado.setIcon(new javax.swing.ImageIcon(conectado));
+                conectar.setText("Desconectar");
+                /* //Toma imagen de Directorio y la establece como ICON de un LABEL.
+                ImageIcon iconConn = new ImageIcon(conectado);
+                iconConn.getImage().flush();
+                iconEstado.setIcon( iconConn );
+                */
+                
+                //icono = ImageIcon(getClass().getResource());
+                //icono = ImageIcon("/img/red_33x33.png");
+                //iconEstado.setIcon(icono);
+                //iconEstado.setIcon(new ImageIcon(getClass().getResource("../img/tr.png")).getImage());
+                //iconEstado.setIcon(getClass().getResource("../img/tr.png")).getImage();
+                //iconEstado.setIcon(new ImageIcon(ImageIO.read(new File(conectado))));
+                //Image icono = new javax.swing.ImageIcon(getClass().getResource("red_33x33.png")).getImage();
+                //iconEstado.setIcon((Icon) icono);
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(DBConnectW.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else
         {
             estado.setText("Desconectado");            
-            iconEstado.setEnabled(rootPaneCheckingEnabled);
             iconEstado.setIcon(new javax.swing.ImageIcon(desconectado));
+            conectar.setText("Conectar");
+            /*
+            ImageIcon iconDeconn = new ImageIcon(desconectado);
+            iconDeconn.getImage().flush();
+            iconEstado.setIcon( iconDeconn );
+            */
         }
         
     }//GEN-LAST:event_conectarActionPerformed
