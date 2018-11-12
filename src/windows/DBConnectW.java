@@ -44,12 +44,25 @@ public class DBConnectW extends javax.swing.JFrame {
     private void initComponents() {
 
         jFrame1 = new javax.swing.JFrame();
+        grupoLogin = new javax.swing.ButtonGroup();
         conectar = new javax.swing.JButton();
         salir = new javax.swing.JButton();
         estado = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         queryInput = new javax.swing.JTextArea();
         iconEstado = new javax.swing.JLabel();
+        labelServer = new javax.swing.JLabel();
+        campoServer = new javax.swing.JTextField();
+        labelDB = new javax.swing.JLabel();
+        campoDB = new javax.swing.JTextField();
+        opcionBejerman = new javax.swing.JRadioButton();
+        opcionSQL = new javax.swing.JRadioButton();
+        labelUser = new javax.swing.JLabel();
+        campoUser = new javax.swing.JTextField();
+        labelPass = new javax.swing.JLabel();
+        campoPass = new javax.swing.JPasswordField();
+        checkVerPass = new javax.swing.JCheckBox();
+        jSeparator1 = new javax.swing.JSeparator();
 
         jFrame1.setTitle("Conexión a la Base de Datos");
         jFrame1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -68,6 +81,7 @@ public class DBConnectW extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Conexión a la Base de Datos");
+        setFocusable(false);
         setName("ventana"); // NOI18N
 
         conectar.setText("Conectar");
@@ -110,38 +124,141 @@ public class DBConnectW extends javax.swing.JFrame {
         iconEstado.setMinimumSize(new java.awt.Dimension(10, 10));
         iconEstado.setPreferredSize(new java.awt.Dimension(25, 25));
 
+        labelServer.setText("Servidor:");
+        labelServer.setToolTipText("Ingrese la URL del servidor");
+
+        labelDB.setText("Base de Datos:");
+        labelDB.setToolTipText("Nombre de la Base de Datos a conectar");
+
+        grupoLogin.add(opcionBejerman);
+        opcionBejerman.setSelected(true);
+        opcionBejerman.setText("Login con usuario 'bejerman'");
+        opcionBejerman.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opcionBejermanActionPerformed(evt);
+            }
+        });
+        opcionBejerman.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                opcionBejermanPropertyChange(evt);
+            }
+        });
+
+        grupoLogin.add(opcionSQL);
+        opcionSQL.setText("Autenticación SQL");
+        opcionSQL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opcionSQLActionPerformed(evt);
+            }
+        });
+
+        labelUser.setText("Usuario:");
+        labelUser.setEnabled(false);
+        labelUser.setFocusable(false);
+
+        campoUser.setEnabled(false);
+
+        labelPass.setText("Contraseña:");
+        labelPass.setEnabled(false);
+        labelPass.setFocusable(false);
+
+        campoPass.setColumns(12);
+        campoPass.setEnabled(false);
+
+        checkVerPass.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        checkVerPass.setText("Visualizar la Clave");
+        checkVerPass.setEnabled(false);
+        checkVerPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkVerPassActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(estado)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(labelServer)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(campoServer))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(labelDB)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(campoDB))))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(estado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(salir))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(labelUser)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelPass)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(checkVerPass)
+                            .addComponent(campoPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(246, 246, 246)
+                .addComponent(conectar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(salir)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(conectar))
-                .addGap(0, 3, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(opcionBejerman)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(opcionSQL))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(estado)))
-                .addGap(1, 1, 1)
-                .addComponent(conectar)
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelServer)
+                    .addComponent(campoServer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelDB)
+                    .addComponent(campoDB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(opcionBejerman)
+                    .addComponent(opcionSQL))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(salir)
-                .addGap(3, 3, 3))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelUser)
+                    .addComponent(campoUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelPass)
+                    .addComponent(campoPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkVerPass)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(conectar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(salir)
+                        .addComponent(estado))
+                    .addComponent(iconEstado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -155,6 +272,8 @@ public class DBConnectW extends javax.swing.JFrame {
         String conectado = "C:\\green_33x33.png";
         String desconectado = "C:\\red_33x33.png";
         //Icon conectado = new javax.swing.ImageIcon(conectado);
+            
+            
         if( "Desconectado".equals(estado.getText()))
         {
             try {
@@ -162,6 +281,12 @@ public class DBConnectW extends javax.swing.JFrame {
                 estado.setText("Conectado");          
                 iconEstado.setIcon(new javax.swing.ImageIcon(conectado));
                 conectar.setText("Desconectar");
+                labelServer.setEnabled(false);
+                labelDB.setEnabled(false);
+                campoServer.setEnabled(false);
+                campoDB.setEnabled(false);
+                opcionBejerman.setEnabled(false);
+                opcionSQL.setEnabled(false);
                 /* //Toma imagen de Directorio y la establece como ICON de un LABEL.
                 ImageIcon iconConn = new ImageIcon(conectado);
                 iconConn.getImage().flush();
@@ -185,6 +310,12 @@ public class DBConnectW extends javax.swing.JFrame {
             estado.setText("Desconectado");            
             iconEstado.setIcon(new javax.swing.ImageIcon(desconectado));
             conectar.setText("Conectar");
+            labelServer.setEnabled(true);
+            labelDB.setEnabled(true);
+            campoServer.setEnabled(true);
+            campoDB.setEnabled(true);
+            opcionBejerman.setEnabled(true);
+            opcionSQL.setEnabled(true);
             /*
             ImageIcon iconDeconn = new ImageIcon(desconectado);
             iconDeconn.getImage().flush();
@@ -209,6 +340,41 @@ public class DBConnectW extends javax.swing.JFrame {
         dispose();
         //System.exit(0); // Cerrar el sistema.
     }//GEN-LAST:event_salirActionPerformed
+
+    private void opcionBejermanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcionBejermanActionPerformed
+        // TODO add your handling code here:
+            campoUser.setEnabled(false);
+            campoPass.setEnabled(false);
+            labelUser.setEnabled(false);
+            labelPass.setEnabled(false);
+            checkVerPass.setEnabled(false);
+    }//GEN-LAST:event_opcionBejermanActionPerformed
+
+    private void opcionBejermanPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_opcionBejermanPropertyChange
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_opcionBejermanPropertyChange
+
+    private void opcionSQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcionSQLActionPerformed
+        // TODO add your handling code here:
+            campoUser.setEnabled(true);
+            campoPass.setEnabled(true);
+            labelUser.setEnabled(true);
+            labelPass.setEnabled(true);
+            checkVerPass.setEnabled(true);
+    }//GEN-LAST:event_opcionSQLActionPerformed
+
+    private void checkVerPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkVerPassActionPerformed
+        // TODO add your handling code here:
+        if(checkVerPass.isSelected())
+        {
+            campoPass.setEchoChar((char)0);
+        }
+        else
+        {
+            campoPass.setEchoChar('*');
+        }
+    }//GEN-LAST:event_checkVerPassActionPerformed
 
     /**
      * @param args the command line arguments
@@ -246,11 +412,24 @@ public class DBConnectW extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField campoDB;
+    private javax.swing.JPasswordField campoPass;
+    private javax.swing.JTextField campoServer;
+    private javax.swing.JTextField campoUser;
+    private javax.swing.JCheckBox checkVerPass;
     public javax.swing.JButton conectar;
     public javax.swing.JLabel estado;
+    private javax.swing.ButtonGroup grupoLogin;
     public javax.swing.JLabel iconEstado;
-    public javax.swing.JFrame jFrame1;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel labelDB;
+    private javax.swing.JLabel labelPass;
+    private javax.swing.JLabel labelServer;
+    private javax.swing.JLabel labelUser;
+    private javax.swing.JRadioButton opcionBejerman;
+    private javax.swing.JRadioButton opcionSQL;
     private javax.swing.JTextArea queryInput;
     private javax.swing.JButton salir;
     // End of variables declaration//GEN-END:variables
