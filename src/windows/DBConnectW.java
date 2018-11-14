@@ -30,6 +30,7 @@ public class DBConnectW extends javax.swing.JFrame {
     private static String OS = System.getProperty("os.name");
     private static String OSArch = System.getProperty("os.arch").toLowerCase();
     private static String OSVersion = System.getProperty("os.version").toLowerCase();
+    public boolean SesentaY4 = false;
 
     /**
      * Creates new form DBConnectW
@@ -56,11 +57,13 @@ public class DBConnectW extends javax.swing.JFrame {
         if("amd64".equals(OSArch)) //No funciona con == porque se compara un Objeto (almacenado como heap). Sólo funcionará con == si se compara elementos de un Stack (tipos básicos)
         {                           // Stack (==) Vs. Heap (String.equals(object))...
             labelArch.setText(labelArch.getText() + "64-bit");
+            SesentaY4 = true;
         }
-        else
+        /*else
         {
             labelArch.setText(labelArch.getText() + "32-bit");
-        }
+            SesentaY4 = false;
+        }*/
         this.setLocationRelativeTo(null); //Centra la ventana
     }
     
@@ -342,15 +345,40 @@ public class DBConnectW extends javax.swing.JFrame {
         String conectado = "C:\\green_33x33.png";
         String desconectado = "C:\\red_33x33.png";
         //Icon conectado = new javax.swing.ImageIcon(conectado);
+        String regKey = null;
+        if(SesentaY4)
+        {
+            regKey = "SOFTWARE\\Wow6432Node\\Sistemas Bejerman";
+        }
+        else
+        {
+            regKey = "SOFTWARE\\Sistemas Bejerman";
+        }
         
 
         
-        String registroSB = null;
+        String regServer = null;
+        String regManager = null;
+        String regUpdates = null;
+        String regBases = null;
         try {
-            registroSB = WinRegistry.readString (
+            regServer = WinRegistry.readString (
                     WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
-                    "SOFTWARE\\Wow6432Node\\Sistemas Bejerman",           //Key
+                    regKey, //Key
                     "Server ODBC"); //ValueName
+            regManager = WinRegistry.readString (
+                    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
+                    regKey, //Key
+                    "Nombre de la base de datos 'Manager' - SQL"); //ValueName
+            regUpdates = WinRegistry.readString (
+                    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
+                    regKey, //Key
+                    "Ruta Instalador"); //ValueName
+            regBases = WinRegistry.readString (
+                    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
+                    regKey, //Key
+                    "Ruta UNC al Servidor - SQL"); //ValueName                    
+                    
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(DBConnectW.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
@@ -359,7 +387,10 @@ public class DBConnectW extends javax.swing.JFrame {
             Logger.getLogger(DBConnectW.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        System.out.println("URL Server = " + registroSB);
+        System.out.println("URL Server = " + regServer);
+        System.out.println("URL Manager = " + regManager);
+        System.out.println("URL Updates = " + regUpdates);
+        System.out.println("URL Bases = " + regBases);
         //System.out.println("Version: " + OSVersion);
         //System.out.println("Aquitectura: " + OSArch);
             
