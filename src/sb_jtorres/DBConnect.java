@@ -68,10 +68,43 @@ public class DBConnect {
            int usu_status = rs.getInt(5);
            System.out.println("ID:" + usu_id + " - Nombre:" + usu_nombre + " - Código:" + usu_codigo + " - clave:" + usu_clave + " - Estado:" + usu_status);
         }
+        //st = cnx.createStatement();
+        rs.close();
         cnx.close();
    }
    public void Desconectar()
    {
+   /*
+       
+       public void cierraConexion() {
+    try {
+        Conector.close();
+    } catch (SQLException sqle) {
+        JOptionPane.showMessageDialog(null, "Error al cerrar conexion", "Error", JOptionPane.ERROR_MESSAGE);
+        Logger.getLogger(ConexionDAO.class.getName()).log(Level.SEVERE, null, sqle);
+    }
+    }
+       
+       */
    
+   /*
+       public void cierraConsultas() {
+    try {
+        if (Rs != null) {
+            Rs.close();
+        }
+        if (St != null) {
+            St.close();
+        }
+        if (Conector != null) {
+            Conector.close();
+        }
+    } catch (SQLException sqle) {
+        JOptionPane.showMessageDialog(null, "Error cerrando la conexion!", "Error", JOptionPane.ERROR_MESSAGE);
+        Logger.getLogger(LicoreriasDAO.class.getName()).log(Level.SEVERE, null, sqle);
+    }
+}
+       */
+  
    }
 }

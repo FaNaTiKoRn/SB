@@ -27,7 +27,7 @@ import sb_jtorres.WinRegistry;
 
 public class DBConnectW extends javax.swing.JFrame {
 
-    private static String OS = System.getProperty("os.name").toLowerCase();
+    private static String OS = System.getProperty("os.name");
     private static String OSArch = System.getProperty("os.arch").toLowerCase();
     private static String OSVersion = System.getProperty("os.version").toLowerCase();
 
@@ -36,8 +36,31 @@ public class DBConnectW extends javax.swing.JFrame {
      */
     public DBConnectW() {
         initComponents();
-        setIconImage(new ImageIcon(getClass().getResource("../img/tr.png")).getImage());
-        labelArch.setText(OSArch);
+        setIconImage(new ImageIcon(getClass().getResource("../img/tr.png")).getImage()); //Carga ícono de la Aplicación
+        String edicion = null;
+        try {
+            edicion = WinRegistry.readString (
+                    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
+                    "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",           //Key
+                    "ProductName"); //ValueName
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(DBConnectW.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(DBConnectW.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(DBConnectW.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        labelVersion.setText(labelVersion.getText() + OSVersion); // Informa la versión por medio de un Label
+        labelOS.setText(labelOS.getText() + edicion); // Informa la edición por medio de un Label
+        //A continuación se define la Arch y se informa al User por medio de labelArch
+        if("amd64".equals(OSArch)) //No funciona con == porque se compara un Objeto (almacenado como heap). Sólo funcionará con == si se compara elementos de un Stack (tipos básicos)
+        {                           // Stack (==) Vs. Heap (String.equals(object))...
+            labelArch.setText(labelArch.getText() + "64-bit");
+        }
+        else
+        {
+            labelArch.setText(labelArch.getText() + "32-bit");
+        }
         this.setLocationRelativeTo(null); //Centra la ventana
     }
     
@@ -74,6 +97,8 @@ public class DBConnectW extends javax.swing.JFrame {
         opcionMySQL = new javax.swing.JRadioButton();
         opcionSQLServer = new javax.swing.JRadioButton();
         labelArch = new javax.swing.JLabel();
+        labelOS = new javax.swing.JLabel();
+        labelVersion = new javax.swing.JLabel();
 
         jFrame1.setTitle("Conexión a la Base de Datos");
         jFrame1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -192,7 +217,11 @@ public class DBConnectW extends javax.swing.JFrame {
         opcionSQLServer.setSelected(true);
         opcionSQLServer.setText("SQL Server.");
 
-        labelArch.setText("Arquitectura");
+        labelArch.setText("Arquitectura: ");
+
+        labelOS.setText("OS: ");
+
+        labelVersion.setText("Versión: ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -207,41 +236,46 @@ public class DBConnectW extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(21, 21, 21)
-                                .addComponent(labelUser)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(campoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(labelPass)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(labelUser)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(campoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(labelPass))
+                                    .addComponent(labelOS)
+                                    .addComponent(labelArch)
+                                    .addComponent(labelVersion))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(campoPass, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(checkVerPass)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(labelServer)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(campoServer, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(labelDB)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(campoDB)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(opcionSQLServer)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(1, 1, 1)
-                                        .addComponent(opcionMySQL))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(opcionBejerman)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(opcionSQL))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(labelArch)
-                                .addGap(176, 176, 176)
-                                .addComponent(conectar)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(labelServer)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(campoServer, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(labelDB)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(campoDB)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(opcionSQLServer)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(1, 1, 1)
+                                                .addComponent(opcionMySQL))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(236, 236, 236)
+                                        .addComponent(conectar)))))
                         .addGap(0, 10, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
@@ -279,7 +313,11 @@ public class DBConnectW extends javax.swing.JFrame {
                     .addComponent(campoPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(checkVerPass)
-                .addGap(23, 23, 23)
+                .addGap(6, 6, 6)
+                .addComponent(labelOS)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelVersion)
+                .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(conectar)
                     .addComponent(labelArch))
@@ -307,12 +345,12 @@ public class DBConnectW extends javax.swing.JFrame {
         
 
         
-        String valor = null;
+        String registroSB = null;
         try {
-            valor = WinRegistry.readString (
+            registroSB = WinRegistry.readString (
                     WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
-                    "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",           //Key
-                    "ProductName"); //ValueName
+                    "SOFTWARE\\Wow6432Node\\Sistemas Bejerman",           //Key
+                    "Server ODBC"); //ValueName
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(DBConnectW.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
@@ -320,9 +358,10 @@ public class DBConnectW extends javax.swing.JFrame {
         } catch (InvocationTargetException ex) {
             Logger.getLogger(DBConnectW.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Windows Distribution = " + valor);
-        System.out.println("Version: " + OSVersion);
-        System.out.println("Aquitectura: " + OSArch);
+        
+        System.out.println("URL Server = " + registroSB);
+        //System.out.println("Version: " + OSVersion);
+        //System.out.println("Aquitectura: " + OSArch);
             
         if( "Desconectado".equals(estado.getText()))
         {
@@ -480,13 +519,15 @@ public class DBConnectW extends javax.swing.JFrame {
     private javax.swing.ButtonGroup grupoLogin;
     private javax.swing.ButtonGroup grupoServidores;
     public javax.swing.JLabel iconEstado;
-    private javax.swing.JFrame jFrame1;
+    public javax.swing.JFrame jFrame1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelArch;
     private javax.swing.JLabel labelDB;
+    private javax.swing.JLabel labelOS;
     private javax.swing.JLabel labelPass;
     private javax.swing.JLabel labelServer;
     private javax.swing.JLabel labelUser;
+    private javax.swing.JLabel labelVersion;
     private javax.swing.JRadioButton opcionBejerman;
     private javax.swing.JRadioButton opcionMySQL;
     private javax.swing.JRadioButton opcionSQL;
