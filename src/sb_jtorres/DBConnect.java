@@ -38,7 +38,7 @@ public class DBConnect {
     private String user = "sa";
     private String pass = "sa2017";
 */
-   public void Conectar() throws ClassNotFoundException, SQLException{
+   public String Conectar() throws ClassNotFoundException, SQLException{
         //Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); //Para SQLServer
         Class.forName("com.mysql.jdbc.Driver"); //Para MySQL
         //String server = "WOLVERINE\\MSSQL14.SQLEXPRESS:1433";  // MsSQL SERVER
@@ -71,6 +71,7 @@ public class DBConnect {
         //st = cnx.createStatement();
         rs.close();
         cnx.close();
+        return db;
    }
    public void Desconectar()
    {

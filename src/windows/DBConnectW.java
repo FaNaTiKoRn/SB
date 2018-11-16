@@ -31,6 +31,7 @@ public class DBConnectW extends javax.swing.JFrame {
     private static String OSArch = System.getProperty("os.arch").toLowerCase();
     private static String OSVersion = System.getProperty("os.version").toLowerCase();
     public boolean SesentaY4 = false;
+    public String base = null;
 
     /**
      * Creates new form DBConnectW
@@ -64,6 +65,53 @@ public class DBConnectW extends javax.swing.JFrame {
             labelArch.setText(labelArch.getText() + "32-bit");
             SesentaY4 = false;
         }*/
+                String regKey = null;
+        if(SesentaY4)
+        {
+            regKey = "SOFTWARE\\Wow6432Node\\Sistemas Bejerman";
+        }
+        else
+        {
+            regKey = "SOFTWARE\\Sistemas Bejerman";
+        }
+
+        String regServer = null;
+        String regManager = null;
+        String regUpdates = null;
+        String regBases = null;
+        
+        try {
+            regServer = WinRegistry.readString (
+                    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
+                    regKey, //Key
+                    "Server ODBC"); //ValueName
+            regManager = WinRegistry.readString (
+                    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
+                    regKey, //Key
+                    "Nombre de la base de datos 'Manager' - SQL"); //ValueName
+            regUpdates = WinRegistry.readString (
+                    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
+                    regKey, //Key
+                    "Ruta Instalador"); //ValueName
+            regBases = WinRegistry.readString (
+                    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
+                    regKey, //Key
+                    "Ruta UNC al Servidor - SQL"); //ValueName                    
+                    
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(DBConnectW.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(DBConnectW.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(DBConnectW.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        System.out.println("URL Server = " + regServer);
+        System.out.println("URL Manager = " + regManager);
+        System.out.println("URL Updates = " + regUpdates);
+        System.out.println("URL Bases = " + regBases);
+        //System.out.println("Version: " + OSVersion);
+        //System.out.println("Aquitectura: " + OSArch);
         this.setLocationRelativeTo(null); //Centra la ventana
     }
     
@@ -77,7 +125,7 @@ public class DBConnectW extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFrame1 = new javax.swing.JFrame();
+        mainWindows = new javax.swing.JFrame();
         grupoLogin = new javax.swing.ButtonGroup();
         grupoServidores = new javax.swing.ButtonGroup();
         conectar = new javax.swing.JButton();
@@ -103,18 +151,18 @@ public class DBConnectW extends javax.swing.JFrame {
         labelOS = new javax.swing.JLabel();
         labelVersion = new javax.swing.JLabel();
 
-        jFrame1.setTitle("Conexión a la Base de Datos");
-        jFrame1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jFrame1.setResizable(false);
+        mainWindows.setTitle("Conexión a la Base de Datos");
+        mainWindows.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        mainWindows.setResizable(false);
 
-        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
-        jFrame1.getContentPane().setLayout(jFrame1Layout);
-        jFrame1Layout.setHorizontalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout mainWindowsLayout = new javax.swing.GroupLayout(mainWindows.getContentPane());
+        mainWindows.getContentPane().setLayout(mainWindowsLayout);
+        mainWindowsLayout.setHorizontalGroup(
+            mainWindowsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 400, Short.MAX_VALUE)
         );
-        jFrame1Layout.setVerticalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        mainWindowsLayout.setVerticalGroup(
+            mainWindowsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
@@ -232,64 +280,60 @@ public class DBConnectW extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(salir))
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(labelUser)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(campoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(labelPass))
-                                    .addComponent(labelOS)
-                                    .addComponent(labelArch)
-                                    .addComponent(labelVersion))
+                                .addComponent(labelUser)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(campoPass, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(checkVerPass)))
+                                .addComponent(campoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(labelPass))
+                            .addComponent(labelOS)
+                            .addComponent(labelArch)
+                            .addComponent(labelVersion))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoPass, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(checkVerPass)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(opcionBejerman)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(opcionSQL))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(opcionBejerman)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(opcionSQL))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(labelServer)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(campoServer, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(labelDB)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(campoDB)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(opcionSQLServer)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(1, 1, 1)
-                                                .addComponent(opcionMySQL))))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(236, 236, 236)
-                                        .addComponent(conectar)))))
-                        .addGap(0, 10, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addGap(236, 236, 236)
+                                .addComponent(conectar))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(336, 336, 336)
+                                    .addComponent(salir))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(labelServer)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(campoServer, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(labelDB)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(campoDB)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(opcionSQLServer)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(1, 1, 1)
+                                            .addComponent(opcionMySQL))))))))
+                .addContainerGap(20, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(estado))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(estado)
+                .addGap(0, 386, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,34 +348,37 @@ public class DBConnectW extends javax.swing.JFrame {
                     .addComponent(labelDB)
                     .addComponent(campoDB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(opcionMySQL))
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(opcionBejerman)
-                    .addComponent(opcionSQL))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelUser)
-                    .addComponent(campoUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelPass)
-                    .addComponent(campoPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(checkVerPass)
-                .addGap(6, 6, 6)
-                .addComponent(labelOS)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelVersion)
-                .addGap(1, 1, 1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(conectar)
-                    .addComponent(labelArch))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(salir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(estado))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(opcionBejerman)
+                            .addComponent(opcionSQL))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelUser)
+                            .addComponent(campoUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelPass)
+                            .addComponent(campoPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(checkVerPass)
+                        .addGap(6, 6, 6)
+                        .addComponent(labelOS)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelVersion)
+                        .addGap(1, 1, 1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(conectar)
+                            .addComponent(labelArch))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addComponent(iconEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(estado))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(salir))))
         );
 
         pack();
@@ -345,59 +392,11 @@ public class DBConnectW extends javax.swing.JFrame {
         String conectado = "C:\\green_33x33.png";
         String desconectado = "C:\\red_33x33.png";
         //Icon conectado = new javax.swing.ImageIcon(conectado);
-        String regKey = null;
-        if(SesentaY4)
-        {
-            regKey = "SOFTWARE\\Wow6432Node\\Sistemas Bejerman";
-        }
-        else
-        {
-            regKey = "SOFTWARE\\Sistemas Bejerman";
-        }
-        
-
-        
-        String regServer = null;
-        String regManager = null;
-        String regUpdates = null;
-        String regBases = null;
-        try {
-            regServer = WinRegistry.readString (
-                    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
-                    regKey, //Key
-                    "Server ODBC"); //ValueName
-            regManager = WinRegistry.readString (
-                    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
-                    regKey, //Key
-                    "Nombre de la base de datos 'Manager' - SQL"); //ValueName
-            regUpdates = WinRegistry.readString (
-                    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
-                    regKey, //Key
-                    "Ruta Instalador"); //ValueName
-            regBases = WinRegistry.readString (
-                    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
-                    regKey, //Key
-                    "Ruta UNC al Servidor - SQL"); //ValueName                    
-                    
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(DBConnectW.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(DBConnectW.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(DBConnectW.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        System.out.println("URL Server = " + regServer);
-        System.out.println("URL Manager = " + regManager);
-        System.out.println("URL Updates = " + regUpdates);
-        System.out.println("URL Bases = " + regBases);
-        //System.out.println("Version: " + OSVersion);
-        //System.out.println("Aquitectura: " + OSArch);
             
         if( "Desconectado".equals(estado.getText()))
         {
             try {
-                conectando.Conectar();
+                base = conectando.Conectar();
                 estado.setText("Conectado");          
                 iconEstado.setIcon(new javax.swing.ImageIcon(conectado));
                 conectar.setText("Desconectar");
@@ -411,6 +410,9 @@ public class DBConnectW extends javax.swing.JFrame {
                 campoPass.setEnabled(false);
                 opcionMySQL.setEnabled(false);
                 opcionSQLServer.setEnabled(false);
+                this.setTitle("Conectado a '" + base.toUpperCase() + "'");
+                System.out.println(base.toUpperCase());
+                
                 /* //Toma imagen de Directorio y la establece como ICON de un LABEL.
                 ImageIcon iconConn = new ImageIcon(conectado);
                 iconConn.getImage().flush();
@@ -444,6 +446,7 @@ public class DBConnectW extends javax.swing.JFrame {
             campoPass.setEnabled(true);
             opcionMySQL.setEnabled(true);
             opcionSQLServer.setEnabled(true);
+            this.setTitle("Conexión a la Base de Datos");
             /*
             ImageIcon iconDeconn = new ImageIcon(desconectado);
             iconDeconn.getImage().flush();
@@ -550,7 +553,6 @@ public class DBConnectW extends javax.swing.JFrame {
     private javax.swing.ButtonGroup grupoLogin;
     private javax.swing.ButtonGroup grupoServidores;
     public javax.swing.JLabel iconEstado;
-    public javax.swing.JFrame jFrame1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelArch;
     private javax.swing.JLabel labelDB;
@@ -559,6 +561,7 @@ public class DBConnectW extends javax.swing.JFrame {
     private javax.swing.JLabel labelServer;
     private javax.swing.JLabel labelUser;
     private javax.swing.JLabel labelVersion;
+    public javax.swing.JFrame mainWindows;
     private javax.swing.JRadioButton opcionBejerman;
     private javax.swing.JRadioButton opcionMySQL;
     private javax.swing.JRadioButton opcionSQL;
